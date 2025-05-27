@@ -6,7 +6,7 @@ int main() {
 
 	int N;
 	cin >> N; 
-	int idx = 0; // 몇번째 바퀴인지 
+	int idx = 1; // 몇번째 바퀴인지 
 	int sum = 1;
 
 	while (sum < N) {
