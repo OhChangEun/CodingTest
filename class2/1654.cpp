@@ -1,35 +1,48 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
+
+long long getMaxCableNum(const vector<long long>& cables, long long length) {
+	int total = 0; 
+	for (int i=0; i<cables.size(); i++) {
+		total += cables[i]/length;
+	}
+	return total;
+}
 
 int main() {
 
 	int K, N; 
 	cin >> K >> N; 
 
-	vector<int> nums(K);
+	vector<long long> cables(K);
+
+	long long maxLen = 0;
 	for (int i=0; i<K; i++) {
-		cin >> nums[i];
+		cin >> cables[i];
+		maxLen = max(maxLen, cables[i]); // 최대 랜선 길이 
 	}
 
-	int sum = 0;
-	for (int i=0; i<K; i++) {
-		sum += nums[i];
-	}
+	long long left = 1; 
+	long long right = maxLen;
+	long long result = 0;
 
-	int maxLen = sum/N;
+	while (left <= right) {
+		long long mid = (left + right) / 2; 
+		long long num = getMaxCableNum(cables, mid); 
 
-	for (int i=1; i<=maxLen; i++) {
-		int totalNum = 0;
-		for (int j=0; j<K; j++) { // 모든 선에 대해 
-			totalNum += nums[j]/i;
+		if (num >= N) {
+			result = mid;
+			left = mid + 1;
+		} else {
+			right = mid - 1;
 		}
-		if (totalNum >= N) {
-			cout << i << '\n';
-			break;
-		}
+
 	}
-	
+
+	cout << result << '\n';
+
 	return 0;
 }
